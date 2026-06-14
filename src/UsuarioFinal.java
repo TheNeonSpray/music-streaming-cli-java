@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UsuarioFinal {
-    //Inicializacion de variables
+    // Inicialización de constantes
     private static final double BONO_BIENVENIDA = 4.99;
     private static final String AVATAR_PREDETERMINADO = "img/Avatar-icon.png";
 
@@ -13,7 +13,7 @@ public class UsuarioFinal {
     private String avatar;
     private String correoElectronico;
     private String nombreUsuario;
-    private String contrasenia;
+    private String contrasenia; /* En futuras entregas, la contraseña se almacenará de forma segura mediante hash. */
     private double saldo;
 
     private ArrayList<Cancion> coleccionCanciones;
@@ -24,14 +24,14 @@ public class UsuarioFinal {
     public UsuarioFinal(String nombreCompleto, LocalDate fechaNacimiento, String nacionalidad,
                         String cedula, String avatar, String correoElectronico,
                         String nombreUsuario, String contrasenia) {
-        this.nombreCompleto = nombreCompleto;
-        this.fechaNacimiento = fechaNacimiento;
-        this.nacionalidad = nacionalidad;
-        this.cedula = cedula;
-        this.correoElectronico = correoElectronico;
-        this.nombreUsuario = nombreUsuario;
-        this.contrasenia = contrasenia;
-        this.saldo = BONO_BIENVENIDA;
+        setNombreCompleto(nombreCompleto);
+        setFechaNacimiento(fechaNacimiento);
+        setNacionalidad(nacionalidad);
+        setCedula(cedula);
+        setCorreoElectronico(correoElectronico);
+        setNombreUsuario(nombreUsuario);
+        setContrasenia(contrasenia);
+        setSaldo(BONO_BIENVENIDA);
 
         this.coleccionCanciones = new ArrayList<>();
         this.listasReproduccion = new ArrayList<>();
@@ -47,6 +47,9 @@ public class UsuarioFinal {
     }
 
     public void setNombreCompleto(String nombreCompleto) {
+        if (nombreCompleto == null || nombreCompleto.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre completo no puede estar vacio");
+        }
         this.nombreCompleto = nombreCompleto;
     }
 
@@ -55,6 +58,18 @@ public class UsuarioFinal {
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        if (fechaNacimiento == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento es obligatoria.");
+        }
+
+        if (fechaNacimiento.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede estar en el futuro.");
+        }
+
+        if (java.time.Period.between(fechaNacimiento, LocalDate.now()).getYears() < 18) {
+            throw new IllegalArgumentException("El usuario debe ser mayor de edad.");
+        }
+
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -63,6 +78,9 @@ public class UsuarioFinal {
     }
 
     public void setNacionalidad(String nacionalidad) {
+        if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nacionalidad es un dato requerido.");
+        }
         this.nacionalidad = nacionalidad;
     }
 
@@ -71,6 +89,9 @@ public class UsuarioFinal {
     }
 
     public void setCedula(String cedula) {
+        if (cedula == null || cedula.trim().isEmpty()) {
+            throw new IllegalArgumentException("Por favor ingrese un numero de identificacion");
+        }
         this.cedula = cedula;
     }
 
@@ -79,7 +100,7 @@ public class UsuarioFinal {
     }
 
     public void setAvatar(String avatar) {
-        if (avatar == null || avatar.isBlank()) {
+        if (avatar == null || avatar.trim().isEmpty()) {
             this.avatar = AVATAR_PREDETERMINADO;
         } else {
             this.avatar = avatar;
@@ -91,6 +112,14 @@ public class UsuarioFinal {
     }
 
     public void setCorreoElectronico(String correoElectronico) {
+        if (correoElectronico == null || correoElectronico.trim().isEmpty()) {
+            throw new IllegalArgumentException("El correo electrónico es un dato obligatorio.");
+        }
+
+        if (!correoElectronico.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new IllegalArgumentException("El correo electrónico no tiene un formato válido.");
+        }
+
         this.correoElectronico = correoElectronico;
     }
 
@@ -99,6 +128,10 @@ public class UsuarioFinal {
     }
 
     public void setNombreUsuario(String nombreUsuario) {
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de usuario es obligatorio.");
+        }
+
         this.nombreUsuario = nombreUsuario;
     }
 
@@ -107,6 +140,10 @@ public class UsuarioFinal {
     }
 
     public void setContrasenia(String contrasenia) {
+        if (contrasenia == null || !contrasenia.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9\\s])\\S{8,12}$")) {
+            throw new IllegalArgumentException("La contraseña debe tener entre 8 y 12 caracteres, incluir mayúscula, minúscula, número y carácter especial, sin espacios.");
+        }
+
         this.contrasenia = contrasenia;
     }
 
@@ -115,39 +152,50 @@ public class UsuarioFinal {
     }
 
     public void setSaldo(double saldo) {
-        if (saldo >= 0) {
-            this.saldo = saldo;
+        if (saldo < 0) {
+            throw new IllegalArgumentException("El saldo no puede ser negativo.");
         }
+
+        this.saldo = Math.round(saldo * 100.0) / 100.0;
     }
 
     public ArrayList<Cancion> getColeccionCanciones() {
         return coleccionCanciones;
     }
 
+    // En futuras entregas se volverá privado para proteger la colección del usuario.
     public void setColeccionCanciones(ArrayList<Cancion> coleccionCanciones) {
-        if (coleccionCanciones != null) {
-            this.coleccionCanciones = coleccionCanciones;
+        if (coleccionCanciones == null) {
+            throw new IllegalArgumentException("La colección de canciones no puede ser nula.");
         }
+
+        this.coleccionCanciones = coleccionCanciones;
     }
 
     public ArrayList<ListaReproduccion> getListasReproduccion() {
         return listasReproduccion;
     }
 
+    // En futuras entregas se volverá privado para proteger las listas de reproducción del usuario.
     public void setListasReproduccion(ArrayList<ListaReproduccion> listasReproduccion) {
-        if (listasReproduccion != null) {
-            this.listasReproduccion = listasReproduccion;
+        if (listasReproduccion == null) {
+            throw new IllegalArgumentException("Las listas de reproducción no pueden ser nulas.");
         }
+
+        this.listasReproduccion = listasReproduccion;
     }
 
     public ColaReproduccion getColaReproduccion() {
         return colaReproduccion;
     }
 
+    // En futuras entregas se volverá privado para proteger la cola de reproducción del usuario.
     public void setColaReproduccion(ColaReproduccion colaReproduccion) {
-        if (colaReproduccion != null) {
-            this.colaReproduccion = colaReproduccion;
+        if (colaReproduccion == null) {
+            throw new IllegalArgumentException("La cola de reproducción no puede ser nula.");
         }
+
+        this.colaReproduccion = colaReproduccion;
     }
 
     /* Metodos */
@@ -181,9 +229,12 @@ public class UsuarioFinal {
     }
 
     public void recargarSaldo(double monto) {
-        if (monto > 0) {
-            saldo += monto;
+        if (monto <= 0) {
+            throw new IllegalArgumentException("El monto de recarga debe ser mayor que cero.");
         }
+
+        saldo += monto;
+        saldo = Math.round(saldo * 100.0) / 100.0;
     }
 
     public boolean agregarCancionACola(Cancion cancion) {
@@ -213,7 +264,7 @@ public class UsuarioFinal {
                 ", correoElectronico='" + correoElectronico + '\'' +
                 ", nombreUsuario='" + nombreUsuario + '\'' +
                 ", saldo=" + saldo +
-                ", cancionesCompradas=" + coleccionCanciones.size() +
+                ", coleccionCanciones=" + coleccionCanciones.size() +
                 ", listasReproduccion=" + listasReproduccion.size() +
                 '}';
     }
