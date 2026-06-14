@@ -30,13 +30,11 @@ public class Cancion {
         this.album = album;
 
         setRutaCaratula(rutaCaratula);
-        setCalificacion(calificacion);
         setPrecio(precio);
 
         this.cantidadCompras = 0;
         this.cantidadInclusionesEnListas = 0;
-        this.cantidadCalificaciones = 0;
-        this.sumaCalificaciones = 0.0;
+        inicializarCalificacion(calificacion);
     }
 
     /* Getters & Setters */
@@ -94,7 +92,7 @@ public class Cancion {
     }
 
     public void setRutaCaratula(String rutaCaratula) {
-        if (rutaCaratula == null || rutaCaratula.isBlank()) {
+        if (rutaCaratula == null || rutaCaratula.trim().isEmpty()) {
             this.rutaCaratula = CARATULA_PREDETERMINADA;
         } else {
             this.rutaCaratula = rutaCaratula;
@@ -105,10 +103,9 @@ public class Cancion {
         return calificacion;
     }
 
+    // En futuras entregas se volverá privado porque reinicia el historial interno de calificaciones.
     public void setCalificacion(double calificacion) {
-        if (calificacion >= 0.0 && calificacion <= 5.0) {
-            this.calificacion = Math.round(calificacion * 10.0) / 10.0;
-        }
+        inicializarCalificacion(calificacion);
     }
 
     public double getPrecio() {
@@ -116,9 +113,11 @@ public class Cancion {
     }
 
     public void setPrecio(double precio) {
-        if (precio >= 0.0) {
-            this.precio = Math.round(precio * 100.0) / 100.0;
+        if (precio < 0.0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo.");
         }
+
+        this.precio = Math.round(precio * 100.0) / 100.0;
     }
 
     public int getCantidadCompras() {
@@ -126,9 +125,10 @@ public class Cancion {
     }
 
     public void setCantidadCompras(int cantidadCompras) {
-        if (cantidadCompras >= 0) {
-            this.cantidadCompras = cantidadCompras;
+        if (cantidadCompras < 0) {
+            throw new IllegalArgumentException("La cantidad de compras no puede ser negativa.");
         }
+        this.cantidadCompras = cantidadCompras;
     }
 
     public int getCantidadInclusionesEnListas() {
@@ -136,18 +136,31 @@ public class Cancion {
     }
 
     public void setCantidadInclusionesEnListas(int cantidadInclusionesEnListas) {
-        if (cantidadInclusionesEnListas >= 0) {
-            this.cantidadInclusionesEnListas = cantidadInclusionesEnListas;
+        if (cantidadInclusionesEnListas < 0) {
+            throw new IllegalArgumentException("La cantidad de inclusiones en listas no puede ser negativa.");
         }
+        this.cantidadInclusionesEnListas = cantidadInclusionesEnListas;
     }
 
     public int getCantidadCalificaciones() {
         return cantidadCalificaciones;
     }
 
+    // En futuras entregas se volverá privado.
     public void setCantidadCalificaciones(int cantidadCalificaciones) {
-        if (cantidadCalificaciones >= 0) {
+        if (cantidadCalificaciones < 0) {
+            throw new IllegalArgumentException("La cantidad de calificaciones no puede ser negativa.");
+        }
+
+        if (cantidadCalificaciones == 0) {
+            this.cantidadCalificaciones = 0;
+            this.sumaCalificaciones = 0.0;
+            actualizarCalificacionPromedio();
+        } else if (sumaCalificaciones <= cantidadCalificaciones * 5.0) {
             this.cantidadCalificaciones = cantidadCalificaciones;
+            actualizarCalificacionPromedio();
+        } else {
+            throw new IllegalArgumentException("La cantidad de calificaciones no coincide con la suma actual.");
         }
     }
 
@@ -155,9 +168,20 @@ public class Cancion {
         return sumaCalificaciones;
     }
 
+    // En futuras entregas se volverá privado.
     public void setSumaCalificaciones(double sumaCalificaciones) {
-        if (sumaCalificaciones >= 0.0) {
+        if (sumaCalificaciones < 0.0) {
+            throw new IllegalArgumentException("La suma de calificaciones no puede ser negativa.");
+        }
+
+        if (cantidadCalificaciones == 0 && sumaCalificaciones == 0.0) {
             this.sumaCalificaciones = sumaCalificaciones;
+            actualizarCalificacionPromedio();
+        } else if (cantidadCalificaciones > 0 && sumaCalificaciones <= cantidadCalificaciones * 5.0) {
+            this.sumaCalificaciones = sumaCalificaciones;
+            actualizarCalificacionPromedio();
+        } else {
+            throw new IllegalArgumentException("La suma de calificaciones no coincide con la cantidad actual.");
         }
     }
 
@@ -175,10 +199,34 @@ public class Cancion {
         if (nuevaCalificacion >= 0.0 && nuevaCalificacion <= 5.0) {
             sumaCalificaciones += nuevaCalificacion;
             cantidadCalificaciones++;
-            calificacion = Math.round((sumaCalificaciones / cantidadCalificaciones) * 10.0) / 10.0;
+            actualizarCalificacionPromedio();
             return true;
         }
         return false;
+    }
+
+    private void inicializarCalificacion(double calificacionInicial) {
+        if (calificacionInicial < 0.0 || calificacionInicial > 5.0) {
+            throw new IllegalArgumentException("La calificación debe estar entre 0.0 y 5.0.");
+        }
+
+        if (calificacionInicial > 0.0) {
+            this.sumaCalificaciones = calificacionInicial;
+            this.cantidadCalificaciones = 1;
+            actualizarCalificacionPromedio();
+        } else {
+            this.sumaCalificaciones = 0.0;
+            this.cantidadCalificaciones = 0;
+            this.calificacion = 0.0;
+        }
+    }
+
+    private void actualizarCalificacionPromedio() {
+        if (cantidadCalificaciones > 0) {
+            calificacion = Math.round((sumaCalificaciones / cantidadCalificaciones) * 10.0) / 10.0;
+        } else {
+            calificacion = 0.0;
+        }
     }
 
     @Override
@@ -196,6 +244,7 @@ public class Cancion {
                 ", cantidadCompras=" + cantidadCompras +
                 ", cantidadInclusionesEnListas=" + cantidadInclusionesEnListas +
                 ", cantidadCalificaciones=" + cantidadCalificaciones +
+                ", sumaCalificaciones=" + sumaCalificaciones +
                 '}';
     }
 }
