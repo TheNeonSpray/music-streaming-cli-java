@@ -34,6 +34,19 @@ public class Administrador {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+    //metodos
+    public boolean iniciarSesion(String nombreUsuario, String contrasenia){
+        System.out.println("Sesion iniciada con exito");
+        return true;
+    }
+    public boolean modificarContrasenia(String actual, String nueva, String confirmar){
+        System.out.println("Contraseña Modificada");
+        return true;
+    }
+    public void subirCancion(Cancion cancion){
+        System.out.println("Subiendo canción: " + cancion.getNombre());
+    }
+
 
     @java.lang.Override
     public java.lang.String toString() {
