@@ -57,16 +57,38 @@ public class ListaReproduccion {
                 '}';
     }
     //metodos
-    public void agregarCancion(Cancion cancion) {
-        System.out.println("Agregando " + cancion.getNombre() + " a la lista " + nombre);
+    public boolean agregarCancion(Cancion cancion) {
+        if (cancion != null && !canciones.contains(cancion)) {
+            canciones.add(cancion);
+            cancion.registrarInclusionEnLista();
+            calcularCalificacionPromedio();
+            return true;
+        }
+        return false;
     }
 
-    public void eliminarCancion(Cancion cancion) {
-        System.out.println("Eliminando " + cancion.getNombre() + " de la lista " + nombre);
+    public boolean eliminarCancion(Cancion cancion) {
+        if (cancion != null && canciones.remove(cancion)) {
+            calcularCalificacionPromedio();
+            return true;
+        }
+        return false;
     }
+
     public double calcularCalificacionPromedio() {
-        System.out.println("Recorriendo objetos Cancion en '" + this.nombre + "' para dar promedio de calificacion");
-        return 4.5; // Retorna un valor de prueba que esté en el rango de 0.0 a 5.0
+        if (canciones.isEmpty()) {
+            calificacion = 0.0;
+            return calificacion;
+        }
+
+        double suma = 0.0;
+
+        for (Cancion cancion : canciones) {
+            suma += cancion.getCalificacion();
+        }
+
+        calificacion = Math.round((suma / canciones.size()) * 10.0) / 10.0;
+        return calificacion;
     }
 
 }
