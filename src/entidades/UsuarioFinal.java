@@ -5,7 +5,7 @@ import excepciones.SaldoInsuficienteException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class UsuarioFinal {
+public class UsuarioFinal extends Usuario {
     // Inicialización de constantes
     private static final double BONO_BIENVENIDA = 4.99;
     private static final String AVATAR_PREDETERMINADO = "img/Avatar-icon.png";
@@ -15,9 +15,6 @@ public class UsuarioFinal {
     private String nacionalidad;
     private String cedula;
     private String avatar;
-    private String correoElectronico;
-    private String nombreUsuario;
-    private String contrasenia; /* En futuras entregas, la contraseña se almacenará de forma segura mediante hash. */
     private double saldo;
 
     private ArrayList<Cancion> coleccionCanciones;
@@ -28,18 +25,17 @@ public class UsuarioFinal {
     public UsuarioFinal(String nombreCompleto, LocalDate fechaNacimiento, String nacionalidad,
                         String cedula, String avatar, String correoElectronico,
                         String nombreUsuario, String contrasenia) {
+        super(correoElectronico, nombreUsuario, contrasenia);
+
         setNombreCompleto(nombreCompleto);
         setFechaNacimiento(fechaNacimiento);
         setNacionalidad(nacionalidad);
         setCedula(cedula);
-        setCorreoElectronico(correoElectronico);
-        setNombreUsuario(nombreUsuario);
-        setContrasenia(contrasenia);
         setSaldo(BONO_BIENVENIDA);
 
-        this.coleccionCanciones = new ArrayList<>();
-        this.listasReproduccion = new ArrayList<>();
-        this.colaReproduccion = new ColaReproduccion();
+        setColeccionCanciones(new ArrayList<>());
+        setListasReproduccion(new ArrayList<>());
+        setColaReproduccion(new ColaReproduccion());
 
         setAvatar(avatar);
     }
@@ -111,51 +107,12 @@ public class UsuarioFinal {
         }
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        if (correoElectronico == null || correoElectronico.trim().isEmpty()) {
-            throw new IllegalArgumentException("El correo electrónico es un dato obligatorio.");
-        }
-
-        if (!correoElectronico.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            throw new IllegalArgumentException("El correo electrónico no tiene un formato válido.");
-        }
-
-        this.correoElectronico = correoElectronico;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de usuario es obligatorio.");
-        }
-
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        if (contrasenia == null || !contrasenia.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9\\s])\\S{8,12}$")) {
-            throw new IllegalArgumentException("La contraseña debe tener entre 8 y 12 caracteres, incluir mayúscula, minúscula, número y carácter especial, sin espacios.");
-        }
-
-        this.contrasenia = contrasenia;
-    }
-
     public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    // Se mantiene privado para que el saldo solo cambie mediante recargas y compras.
+    private void setSaldo(double saldo) {
         if (saldo < 0) {
             throw new IllegalArgumentException("El saldo no puede ser negativo.");
         }
@@ -167,8 +124,8 @@ public class UsuarioFinal {
         return coleccionCanciones;
     }
 
-    // En futuras entregas se volverá privado para proteger la colección del usuario.
-    public void setColeccionCanciones(ArrayList<Cancion> coleccionCanciones) {
+    // Se mantiene privado para proteger la colección del usuario.
+    private void setColeccionCanciones(ArrayList<Cancion> coleccionCanciones) {
         if (coleccionCanciones == null) {
             throw new IllegalArgumentException("La colección de canciones no puede ser nula.");
         }
@@ -180,8 +137,8 @@ public class UsuarioFinal {
         return listasReproduccion;
     }
 
-    // En futuras entregas se volverá privado para proteger las listas de reproducción del usuario.
-    public void setListasReproduccion(ArrayList<ListaReproduccion> listasReproduccion) {
+    // Se mantiene privado para proteger las listas de reproducción del usuario.
+    private void setListasReproduccion(ArrayList<ListaReproduccion> listasReproduccion) {
         if (listasReproduccion == null) {
             throw new IllegalArgumentException("Las listas de reproducción no pueden ser nulas.");
         }
@@ -193,8 +150,8 @@ public class UsuarioFinal {
         return colaReproduccion;
     }
 
-    // En futuras entregas se volverá privado para proteger la cola de reproducción del usuario.
-    public void setColaReproduccion(ColaReproduccion colaReproduccion) {
+    // Se mantiene privado para proteger la cola de reproducción del usuario.
+    private void setColaReproduccion(ColaReproduccion colaReproduccion) {
         if (colaReproduccion == null) {
             throw new IllegalArgumentException("La cola de reproducción no puede ser nula.");
         }
@@ -203,6 +160,32 @@ public class UsuarioFinal {
     }
 
     /* Metodos */
+
+    // Se compra una canción del catálogo: se valida el saldo disponible, se debita
+    // el precio, se registra la compra y se agrega la canción a la colección.
+    public boolean comprarCancion(Cancion cancion) throws SaldoInsuficienteException {
+        if (cancion == null || tieneCancion(cancion)) {
+            return false;
+        }
+
+        if (saldo < cancion.getPrecio()) {
+            throw new SaldoInsuficienteException("Saldo insuficiente para comprar '" + cancion.getNombre()
+                    + "'. Saldo actual: $" + saldo + ", precio: $" + cancion.getPrecio() + ".");
+        }
+
+        setSaldo(saldo - cancion.getPrecio());
+        cancion.registrarCompra();
+        coleccionCanciones.add(cancion);
+        return true;
+    }
+
+    // Se califica una canción únicamente si el usuario la ha comprado previamente.
+    public boolean calificarCancion(Cancion cancion, double calificacion) {
+        if (tieneCancion(cancion)) {
+            return cancion.agregarCalificacion(calificacion);
+        }
+        return false;
+    }
 
     public boolean agregarCancionAColeccion(Cancion cancion) {
         if (cancion != null && !coleccionCanciones.contains(cancion)) {
@@ -243,7 +226,7 @@ public class UsuarioFinal {
 
     public boolean agregarCancionACola(Cancion cancion) {
         if (tieneCancion(cancion)) {
-            colaReproduccion.agregarCancion(cancion);
+            colaReproduccion.agregarElemento(cancion);
             return true;
         }
         return false;
@@ -251,22 +234,28 @@ public class UsuarioFinal {
 
     public boolean agregarListaACola(ListaReproduccion lista) {
         if (lista != null && listasReproduccion.contains(lista)) {
-            colaReproduccion.agregarListaReproduccion(lista);
+            colaReproduccion.agregarElemento(lista);
             return true;
         }
         return false;
     }
 
+    // Se permite la reproducción completa únicamente de las canciones compradas.
+    @Override
+    public boolean puedeReproducirCompleta(Cancion cancion) {
+        return tieneCancion(cancion);
+    }
+
     @Override
     public String toString() {
-        return "entidades.UsuarioFinal{" +
+        return "UsuarioFinal{" +
                 "nombreCompleto='" + nombreCompleto + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", nacionalidad='" + nacionalidad + '\'' +
                 ", cedula='" + cedula + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", correoElectronico='" + correoElectronico + '\'' +
-                ", nombreUsuario='" + nombreUsuario + '\'' +
+                ", correoElectronico='" + getCorreoElectronico() + '\'' +
+                ", nombreUsuario='" + getNombreUsuario() + '\'' +
                 ", saldo=" + saldo +
                 ", coleccionCanciones=" + coleccionCanciones.size() +
                 ", listasReproduccion=" + listasReproduccion.size() +
