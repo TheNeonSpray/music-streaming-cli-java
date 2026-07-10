@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ListaReproduccion {
+public class ListaReproduccion implements Reproducible {
     private String nombre;
     private LocalDate fechaCreacion;
     private double calificacion;
@@ -45,13 +45,14 @@ public class ListaReproduccion {
         this.canciones = canciones;
     }
 
-    public void setCalificacion(double calificacion) {
+    // Se mantiene privado porque la calificación solo se deriva del promedio de las canciones.
+    private void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
     }
 
     @Override
     public String toString() {
-        return "entidades.ListaReproduccion{" +
+        return "ListaReproduccion{" +
                 "nombre='" + nombre + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
                 ", calificacion=" + calificacion +
@@ -89,8 +90,22 @@ public class ListaReproduccion {
             suma += cancion.getCalificacion();
         }
 
-        calificacion = Math.round((suma / canciones.size()) * 10.0) / 10.0;
+        setCalificacion(Math.round((suma / canciones.size()) * 10.0) / 10.0);
         return calificacion;
+    }
+
+    // Se genera el mensaje simbólico de la reproducción iterativa de la lista completa.
+    @Override
+    public String reproducir() {
+        if (canciones.isEmpty()) {
+            return "La lista '" + nombre + "' no tiene canciones para reproducir.";
+        }
+
+        String mensaje = "Reproduciendo la lista '" + nombre + "':";
+        for (Cancion cancion : canciones) {
+            mensaje += "\n  " + cancion.reproducir();
+        }
+        return mensaje;
     }
 
 }
