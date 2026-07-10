@@ -1,3 +1,5 @@
+package entidades;
+
 import java.time.LocalDate;
 
 public class Cancion {
@@ -231,7 +233,7 @@ public class Cancion {
 
     @Override
     public String toString() {
-        return "Cancion{" +
+        return "entidades.Cancion{" +
                 "nombre='" + nombre + '\'' +
                 ", genero='" + genero + '\'' +
                 ", artista='" + artista + '\'' +

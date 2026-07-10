@@ -1,3 +1,10 @@
+package logica;
+import entidades.Administrador;
+import entidades.Cancion;
+import entidades.ListaReproduccion;
+import entidades.Usuario;
+import entidades.UsuarioFinal;
+import excepciones.CredencialesInvalidasException;
 import java.util.ArrayList;
 
 public class Aplicacion {
@@ -85,7 +92,7 @@ public class Aplicacion {
 
     @Override
     public String toString() {
-        return "Aplicacion{" +
+        return "logica.Aplicacion{" +
                 "administrador=" + (administrador != null ? administrador.getNombreUsuario() : "No registrado") +
                 ", cantidadUsuarios=" + usuarios.size() +
                 ", cantidadCancionesCatalogo=" + catalogo.size() +

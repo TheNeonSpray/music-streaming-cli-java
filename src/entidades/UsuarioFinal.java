@@ -1,3 +1,7 @@
+package entidades;
+
+import excepciones.SaldoInsuficienteException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -255,7 +259,7 @@ public class UsuarioFinal {
 
     @Override
     public String toString() {
-        return "UsuarioFinal{" +
+        return "entidades.UsuarioFinal{" +
                 "nombreCompleto='" + nombreCompleto + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", nacionalidad='" + nacionalidad + '\'' +

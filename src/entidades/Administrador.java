@@ -1,3 +1,4 @@
+package entidades;
 
 public class Administrador {
     private String correoElectronico;
@@ -80,7 +81,7 @@ public class Administrador {
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Administrador{" +
+        return "entidades.Administrador{" +
                 "correoElectronico='" + correoElectronico + '\'' +
                 ", nombreUsuario='" + nombreUsuario + '\'' +
                 ", contrasenia='" + contrasenia + '\'' +

@@ -1,3 +1,5 @@
+package entidades;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +51,7 @@ public class ListaReproduccion {
 
     @Override
     public String toString() {
-        return "ListaReproduccion{" +
+        return "entidades.ListaReproduccion{" +
                 "nombre='" + nombre + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
                 ", calificacion=" + calificacion +
