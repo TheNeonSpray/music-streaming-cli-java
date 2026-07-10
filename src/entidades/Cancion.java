@@ -2,7 +2,7 @@ package entidades;
 
 import java.time.LocalDate;
 
-public class Cancion {
+public class Cancion implements Reproducible {
     private static final String CARATULA_PREDETERMINADA = "img/Record-icon.png";
 
     private String nombre;
@@ -24,12 +24,12 @@ public class Cancion {
     public Cancion(String nombre, String genero, String artista, String compositor,
                    LocalDate fechaLanzamiento, String album, String rutaCaratula,
                    double calificacion, double precio) {
-        this.nombre = nombre;
-        this.genero = genero;
-        this.artista = artista;
-        this.compositor = compositor;
-        this.fechaLanzamiento = fechaLanzamiento;
-        this.album = album;
+        setNombre(nombre);
+        setGenero(genero);
+        setArtista(artista);
+        setCompositor(compositor);
+        setFechaLanzamiento(fechaLanzamiento);
+        setAlbum(album);
 
         setRutaCaratula(rutaCaratula);
         setPrecio(precio);
@@ -46,6 +46,9 @@ public class Cancion {
     }
 
     public void setNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la canción es obligatorio.");
+        }
         this.nombre = nombre;
     }
 
@@ -54,6 +57,9 @@ public class Cancion {
     }
 
     public void setGenero(String genero) {
+        if (genero == null || genero.trim().isEmpty()) {
+            throw new IllegalArgumentException("El género de la canción es obligatorio.");
+        }
         this.genero = genero;
     }
 
@@ -62,6 +68,9 @@ public class Cancion {
     }
 
     public void setArtista(String artista) {
+        if (artista == null || artista.trim().isEmpty()) {
+            throw new IllegalArgumentException("El artista de la canción es obligatorio.");
+        }
         this.artista = artista;
     }
 
@@ -70,6 +79,9 @@ public class Cancion {
     }
 
     public void setCompositor(String compositor) {
+        if (compositor == null || compositor.trim().isEmpty()) {
+            throw new IllegalArgumentException("El compositor de la canción es obligatorio.");
+        }
         this.compositor = compositor;
     }
 
@@ -78,6 +90,14 @@ public class Cancion {
     }
 
     public void setFechaLanzamiento(LocalDate fechaLanzamiento) {
+        if (fechaLanzamiento == null) {
+            throw new IllegalArgumentException("La fecha de lanzamiento es obligatoria.");
+        }
+
+        if (fechaLanzamiento.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de lanzamiento no puede estar en el futuro.");
+        }
+
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
@@ -103,11 +123,6 @@ public class Cancion {
 
     public double getCalificacion() {
         return calificacion;
-    }
-
-    // En futuras entregas se volverá privado porque reinicia el historial interno de calificaciones.
-    public void setCalificacion(double calificacion) {
-        inicializarCalificacion(calificacion);
     }
 
     public double getPrecio() {
@@ -148,8 +163,9 @@ public class Cancion {
         return cantidadCalificaciones;
     }
 
-    // En futuras entregas se volverá privado.
-    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+    // Se mantiene privado para proteger el historial de calificaciones; se empleará
+    // en la reconstrucción de los datos persistidos en la entrega final.
+    private void setCantidadCalificaciones(int cantidadCalificaciones) {
         if (cantidadCalificaciones < 0) {
             throw new IllegalArgumentException("La cantidad de calificaciones no puede ser negativa.");
         }
@@ -170,8 +186,9 @@ public class Cancion {
         return sumaCalificaciones;
     }
 
-    // En futuras entregas se volverá privado.
-    public void setSumaCalificaciones(double sumaCalificaciones) {
+    // Se mantiene privado para proteger el historial de calificaciones; se empleará
+    // en la reconstrucción de los datos persistidos en la entrega final.
+    private void setSumaCalificaciones(double sumaCalificaciones) {
         if (sumaCalificaciones < 0.0) {
             throw new IllegalArgumentException("La suma de calificaciones no puede ser negativa.");
         }
@@ -207,6 +224,19 @@ public class Cancion {
         return false;
     }
 
+    // Se genera el mensaje simbólico de la reproducción completa de la canción.
+    @Override
+    public String reproducir() {
+        return "Reproduciendo '" + nombre + "' de " + artista + "...";
+    }
+
+    // Se genera el mensaje simbólico de la reproducción de prueba de 30 segundos
+    // desde una posición al azar de la canción.
+    public String reproducirPreview() {
+        return "Reproduciendo 30 segundos de prueba, desde una posición al azar, de '"
+                + nombre + "' de " + artista + "...";
+    }
+
     private void inicializarCalificacion(double calificacionInicial) {
         if (calificacionInicial < 0.0 || calificacionInicial > 5.0) {
             throw new IllegalArgumentException("La calificación debe estar entre 0.0 y 5.0.");
@@ -233,7 +263,7 @@ public class Cancion {
 
     @Override
     public String toString() {
-        return "entidades.Cancion{" +
+        return "Cancion{" +
                 "nombre='" + nombre + '\'' +
                 ", genero='" + genero + '\'' +
                 ", artista='" + artista + '\'' +
