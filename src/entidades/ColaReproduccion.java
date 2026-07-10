@@ -1,10 +1,11 @@
-/* Clase de Kristhel (borrar este comment una vez completado el codigo) */
+package entidades;/* Clase de Kristhel (borrar este comment una vez completado el codigo) */
+
 import java.util.ArrayList;
 
 public class ColaReproduccion {
     //Atributos
-    private ArrayList<Cancion> canciones;//Declaramos una lista de canciones para guardarlas, estos objetos deben venir de Clase Cancion
-    private ArrayList<ListaReproduccion> listasReproduccion; //Declaramos lista de reproducción, los objetos de esta vienen de Clase ListaReproduccion
+    private ArrayList<Cancion> canciones;//Declaramos una lista de canciones para guardarlas, estos objetos deben venir de Clase entidades.Cancion
+    private ArrayList<ListaReproduccion> listasReproduccion; //Declaramos lista de reproducción, los objetos de esta vienen de Clase entidades.ListaReproduccion
     private int posicionActual;
     private int posicionActualLista;
 
@@ -101,7 +102,7 @@ public class ColaReproduccion {
     }
 
     public String toString() { //Tenemos el metodo toString, nos devuelve String, texto
-        return "ColaReproduccion" + //Este retorna el texto
+        return "entidades.ColaReproduccion" + //Este retorna el texto
                 "canciones: " + canciones + // Da la lista de canciones
                 ", listasReproduccion: " + listasReproduccion; // da la lista de listaReproduccion
     }
