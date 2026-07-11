@@ -263,20 +263,18 @@ public class Cancion implements Reproducible {
 
     @Override
     public String toString() {
-        return "Cancion{" +
-                "nombre='" + nombre + '\'' +
-                ", genero='" + genero + '\'' +
-                ", artista='" + artista + '\'' +
-                ", compositor='" + compositor + '\'' +
-                ", fechaLanzamiento=" + fechaLanzamiento +
-                ", album='" + album + '\'' +
-                ", rutaCaratula='" + rutaCaratula + '\'' +
-                ", calificacion=" + calificacion +
-                ", precio=" + precio +
-                ", cantidadCompras=" + cantidadCompras +
-                ", cantidadInclusionesEnListas=" + cantidadInclusionesEnListas +
-                ", cantidadCalificaciones=" + cantidadCalificaciones +
-                ", sumaCalificaciones=" + sumaCalificaciones +
-                '}';
+        return "Cancion: \n" +
+                "Nombre: " + nombre + "\n" +
+                "Género: " + genero + "\n" +
+                "Artista: " + artista + "\n" +
+                "Compositor: " + compositor + "\n" +
+                "Fecha de lanzamiento: " + fechaLanzamiento + "\n" +
+                "Álbum: " + (album == null || album.isBlank() ? "No pertenece a un álbum" : album) + "\n" +
+                "Ruta caratula='" + rutaCaratula + "\n" +
+                "Calificación: " + calificacion + "\n" +
+                "Precio: $ " + precio +"\n"+
+                "Compras: " + cantidadCompras +"\n"+
+                "Inclusiones en Listas=" + cantidadInclusionesEnListas + "\n" +
+                "Cantidad de Calificaciones: " + cantidadCalificaciones ;
     }
 }
