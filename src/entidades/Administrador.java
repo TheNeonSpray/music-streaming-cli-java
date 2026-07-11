@@ -32,10 +32,9 @@ public class Administrador extends Usuario{
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Administrador{" +
-                "correoElectronico='" + getCorreoElectronico() + '\'' +
-                ", nombreUsuario='" + getNombreUsuario() + '\'' +
-                ", contrasenia='" + getContrasenia() + '\'' +
-                '}';
+        return "Administrador: \n" +
+                "Correo Electrónico: " + getCorreoElectronico() + "\n" +
+                "Nombre de Usuario: " + getNombreUsuario() + "\n" ;
+
     }
 }
