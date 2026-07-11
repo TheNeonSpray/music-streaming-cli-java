@@ -52,12 +52,11 @@ public class ListaReproduccion implements Reproducible {
 
     @Override
     public String toString() {
-        return "ListaReproduccion{" +
-                "nombre='" + nombre + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", calificacion=" + calificacion +
-                ", cantidadCanciones=" + canciones.size() +
-                '}';
+        return "Lista de reproducción\n" +
+                "Nombre: " + nombre + "\n" +
+                "Fecha de creación: " + fechaCreacion + "\n" +
+                "Calificación promedio: " + calificacion + "\n" +
+                "Cantidad de canciones: " + canciones.size();
     }
     //metodos
     public boolean agregarCancion(Cancion cancion) {
