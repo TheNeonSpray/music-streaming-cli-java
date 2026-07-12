@@ -204,11 +204,16 @@ public class UsuarioFinal extends Usuario {
     }
 
     public boolean agregarListaReproduccion(ListaReproduccion lista) {
-        if (lista != null && !listasReproduccion.contains(lista)) {
+            if(lista ==null){
+                return false;
+            }
+            for(ListaReproduccion l : listasReproduccion){
+                if(l.getNombre().equalsIgnoreCase(lista.getNombre())){
+                    return false;
+                }
+            }
             listasReproduccion.add(lista);
             return true;
-        }
-        return false;
     }
 
     public boolean eliminarListaReproduccion(ListaReproduccion lista) {
