@@ -59,13 +59,10 @@ public class ColaReproduccion {
     }
 
     public Reproducible siguienteElemento() { // Se obtiene el siguiente elemento de la cola de forma circular: al llegar
-        if (elementos.isEmpty()) return null;
-        Reproducible elemento = elementos.get(posicionActual);
-        posicionActual++;
-        if (posicionActual >= elementos.size()) {
-            posicionActual = 0;  // al final, la posición vuelve al inicio.
+        if (elementos.isEmpty()) {
+            return null;
         }
-        return elemento;
+        return elementos.remove(0);
     }
 
     public String toString() { //Tenemos el metodo toString, nos devuelve String, texto
