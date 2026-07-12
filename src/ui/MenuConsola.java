@@ -264,8 +264,13 @@ public class MenuConsola {
             System.out.println("Su colección está vacía. Compre canciones del catálogo.");
             return;
         }
+        int i = 1;
         for (Cancion cancion : usuario.getColeccionCanciones()) {
-            System.out.println(cancion);
+            System.out.println(i + ". " + cancion.getNombre() + " - " +
+                    cancion.getArtista() +
+                    " | Género: " + cancion.getGenero() +
+                    " | Calificación: " + cancion.getCalificacion());
+            i++;
         }
     }
 
