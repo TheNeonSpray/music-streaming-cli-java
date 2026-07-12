@@ -266,10 +266,13 @@ public class MenuConsola {
         }
         int i = 1;
         for (Cancion cancion : usuario.getColeccionCanciones()) {
-            System.out.println(i + ". " + cancion.getNombre() + " - " +
-                    cancion.getArtista() +
-                    " | Género: " + cancion.getGenero() +
-                    " | Calificación: " + cancion.getCalificacion());
+            System.out.println(i + ". " + cancion.getNombre());
+            System.out.println("   " + cancion.getArtista());
+            System.out.println("   Género: " + cancion.getGenero());
+            System.out.println("   Calificación: ★ " + cancion.getCalificacion());
+            System.out.println("   Precio: $" + cancion.getPrecio());
+            System.out.println();
+
             i++;
         }
     }
@@ -353,6 +356,7 @@ public class MenuConsola {
             System.out.print("Nombre de la lista: ");
             String nombre = scanner.nextLine();
             ListaReproduccion lista = new ListaReproduccion(nombre, LocalDate.now());
+
             if (usuario.agregarListaReproduccion(lista)) {
                 System.out.println("Lista creada con éxito.");
             } else {
