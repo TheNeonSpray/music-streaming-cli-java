@@ -605,8 +605,14 @@ public class MenuConsola {
             System.out.println("El catálogo está vacío.");
             return;
         }
+        int i= 1;
         for (Cancion cancion : aplicacion.getCatalogo()) {
-            System.out.println(cancion);
+            System.out.println( i + ". "
+                    + " - " + cancion.getArtista()
+                    + " | Género: " + cancion.getGenero()
+                    + " | Precio: $" + cancion.getPrecio()
+                    + " | Calificación: " + cancion.getCalificacion());
+            i++;
         }
     }
 
