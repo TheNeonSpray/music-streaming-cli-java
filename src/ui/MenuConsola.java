@@ -48,9 +48,9 @@ public class MenuConsola {
             System.out.println("\nNo hay un administrador registrado. Debe registrarlo para continuar.");
             try {
                 System.out.print("Correo electrónico: ");
-                String correo = scanner.nextLine();
+                String correo = scanner.nextLine().trim();
                 System.out.print("Nombre de usuario: ");
-                String usuario = scanner.nextLine();
+                String usuario = scanner.nextLine().trim();
                 String contrasenia = leerContraseniaConfirmada();
                 aplicacion.registrarAdministrador(correo, usuario, contrasenia);
                 System.out.println("Administrador registrado con éxito.");
@@ -89,7 +89,7 @@ public class MenuConsola {
     private void iniciarSesion() {
         try {
             System.out.print("Nombre de usuario: ");
-            String nombreUsuario = scanner.nextLine();
+            String nombreUsuario = scanner.nextLine().trim();
             System.out.print("Contraseña: ");
             String contrasenia = scanner.nextLine();
 
@@ -110,7 +110,7 @@ public class MenuConsola {
     private void registrarUsuarioFinal() {
         try {
             System.out.print("Nombre completo: ");
-            String nombreCompleto = scanner.nextLine();
+            String nombreCompleto = scanner.nextLine().trim();
             LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento (AAAA-MM-DD): ");
             String nacionalidad = seleccionarNacionalidad();
             System.out.print("Cédula: ");
@@ -118,9 +118,9 @@ public class MenuConsola {
             System.out.print("Ruta del avatar (opcional, Enter para usar el predeterminado): ");
             String avatar = scanner.nextLine();
             System.out.print("Correo electrónico: ");
-            String correo = scanner.nextLine();
+            String correo = scanner.nextLine().trim();
             System.out.print("Nombre de usuario: ");
-            String nombreUsuario = scanner.nextLine();
+            String nombreUsuario = scanner.nextLine().trim();
             String contrasenia = leerContraseniaConfirmada();
 
             UsuarioFinal nuevoUsuario = new UsuarioFinal(nombreCompleto, fechaNacimiento, nacionalidad,
