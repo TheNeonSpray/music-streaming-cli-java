@@ -92,9 +92,16 @@ public class Aplicacion {
     }
 
     public void agregarCancionAlCatalogo(Cancion nuevaCancion) {
-        if (nuevaCancion != null) {
-            catalogo.add(nuevaCancion);
+        if (nuevaCancion == null) {
+            throw new IllegalArgumentException(("La canción no puede ser nula."));
         }
+        for (Cancion cancion : catalogo) {
+            if (cancion.getNombre().equalsIgnoreCase(nuevaCancion.getNombre())
+                    && cancion.getArtista().equalsIgnoreCase(nuevaCancion.getArtista())) {
+                throw new IllegalArgumentException("La canción ya existe en el catálogo.");
+            }
+        }
+        catalogo.add(nuevaCancion);
     }
 
     // Se valida que la nacionalidad indicada pertenezca a los territorios disponibles.
