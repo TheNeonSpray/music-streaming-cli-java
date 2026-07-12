@@ -3,9 +3,6 @@ package entidades;
 import java.util.ArrayList;
 
 public class Administrador extends Usuario{
-    private String correoElectronico;
-    private String nombreUsuario;
-    private String contrasenia;
 
     //constructor
     public Administrador(String correoElectronico, String nombreUsuario, String contrasenia) {
