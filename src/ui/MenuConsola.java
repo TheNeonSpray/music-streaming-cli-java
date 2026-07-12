@@ -351,7 +351,7 @@ public class MenuConsola {
             if (usuario.agregarListaReproduccion(lista)) {
                 System.out.println("Lista creada con éxito.");
             } else {
-                System.out.println("No fue posible crear la lista.");
+                System.out.println("Ya existe una lista con ese nombre.");
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
