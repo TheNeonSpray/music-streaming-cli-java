@@ -264,8 +264,13 @@ public class MenuConsola {
             System.out.println("Su colección está vacía. Compre canciones del catálogo.");
             return;
         }
+        int i = 1;
         for (Cancion cancion : usuario.getColeccionCanciones()) {
-            System.out.println(cancion);
+            System.out.println(i + ". " + cancion.getNombre() + " - " +
+                    cancion.getArtista() +
+                    " | Género: " + cancion.getGenero() +
+                    " | Calificación: " + cancion.getCalificacion());
+            i++;
         }
     }
 
@@ -351,7 +356,7 @@ public class MenuConsola {
             if (usuario.agregarListaReproduccion(lista)) {
                 System.out.println("Lista creada con éxito.");
             } else {
-                System.out.println("No fue posible crear la lista.");
+                System.out.println("Ya existe una lista con ese nombre.");
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
@@ -600,8 +605,14 @@ public class MenuConsola {
             System.out.println("El catálogo está vacío.");
             return;
         }
+        int i= 1;
         for (Cancion cancion : aplicacion.getCatalogo()) {
-            System.out.println(cancion);
+            System.out.println( i + ". "
+                    + " - " + cancion.getArtista()
+                    + " | Género: " + cancion.getGenero()
+                    + " | Precio: $" + cancion.getPrecio()
+                    + " | Calificación: " + cancion.getCalificacion());
+            i++;
         }
     }
 
