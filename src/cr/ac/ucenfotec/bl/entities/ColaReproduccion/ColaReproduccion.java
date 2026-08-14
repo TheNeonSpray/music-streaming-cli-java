@@ -1,6 +1,6 @@
-package cr.ac.ucenfotec.bl.entidades.ColaReproduccion;/* Clase de Kristhel (borrar este comment una vez completado el codigo) */
+package cr.ac.ucenfotec.bl.entities.ColaReproduccion;/* Clase de Kristhel (borrar este comment una vez completado el codigo) */
 
-import cr.ac.ucenfotec.bl.entidades.Reproducible.Reproducible;
+import cr.ac.ucenfotec.bl.entities.Reproducible.Reproducible;
 
 import java.util.ArrayList;
 

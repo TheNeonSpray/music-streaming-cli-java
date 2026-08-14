@@ -1,8 +1,8 @@
-package cr.ac.ucenfotec.bl.entidades.Administrador;
+package cr.ac.ucenfotec.bl.entities.Administrador;
 
-import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
-import cr.ac.ucenfotec.bl.entidades.Usuario.Usuario;
-import cr.ac.ucenfotec.bl.entidades.UsuarioFinal.UsuarioFinal;
+import cr.ac.ucenfotec.bl.entities.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entities.Usuario.Usuario;
+import cr.ac.ucenfotec.bl.entities.UsuarioFinal.UsuarioFinal;
 
 import java.util.ArrayList;
 

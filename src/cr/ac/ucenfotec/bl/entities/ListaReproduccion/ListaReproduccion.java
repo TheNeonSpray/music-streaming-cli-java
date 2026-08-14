@@ -1,7 +1,7 @@
-package cr.ac.ucenfotec.bl.entidades.ListaReproduccion;
+package cr.ac.ucenfotec.bl.entities.ListaReproduccion;
 
-import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
-import cr.ac.ucenfotec.bl.entidades.Reproducible.Reproducible;
+import cr.ac.ucenfotec.bl.entities.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entities.Reproducible.Reproducible;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
