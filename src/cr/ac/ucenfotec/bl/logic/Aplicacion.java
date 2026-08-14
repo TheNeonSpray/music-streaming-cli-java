@@ -1,11 +1,11 @@
-package cr.ac.ucenfotec.bl.logica;
+package cr.ac.ucenfotec.bl.logic;
 
-import cr.ac.ucenfotec.bl.entidades.Administrador.Administrador;
-import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
-import cr.ac.ucenfotec.bl.entidades.ListaReproduccion.ListaReproduccion;
-import cr.ac.ucenfotec.bl.entidades.Usuario.Usuario;
-import cr.ac.ucenfotec.bl.entidades.UsuarioFinal.UsuarioFinal;
-import cr.ac.ucenfotec.bl.excepciones.CredencialesInvalidasException;
+import cr.ac.ucenfotec.bl.entities.Administrador.Administrador;
+import cr.ac.ucenfotec.bl.entities.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entities.ListaReproduccion.ListaReproduccion;
+import cr.ac.ucenfotec.bl.entities.Usuario.Usuario;
+import cr.ac.ucenfotec.bl.entities.UsuarioFinal.UsuarioFinal;
+import cr.ac.ucenfotec.bl.exceptions.CredencialesInvalidasException;
 
 import java.util.ArrayList;
 

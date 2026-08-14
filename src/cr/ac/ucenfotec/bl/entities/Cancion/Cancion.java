@@ -1,6 +1,6 @@
-package cr.ac.ucenfotec.bl.entidades.Cancion;
+package cr.ac.ucenfotec.bl.entities.Cancion;
 
-import cr.ac.ucenfotec.bl.entidades.Reproducible.Reproducible;
+import cr.ac.ucenfotec.bl.entities.Reproducible.Reproducible;
 
 import java.time.LocalDate;
 

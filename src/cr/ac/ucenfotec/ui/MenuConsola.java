@@ -1,5 +1,5 @@
 package cr.ac.ucenfotec.ui;
-import cr.ac.ucenfotec.bl.excepciones.OpcionInvalidaException;
+import cr.ac.ucenfotec.bl.exceptions.OpcionInvalidaException;
 import java.util.Scanner;
 
 public class MenuConsola {
