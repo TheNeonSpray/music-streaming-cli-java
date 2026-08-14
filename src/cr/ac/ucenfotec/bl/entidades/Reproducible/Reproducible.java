@@ -1,4 +1,4 @@
-package entidades;
+package cr.ac.ucenfotec.bl.entidades.Reproducible;
 
 /* Interfaz que define el comportamiento común de los elementos que pueden
    reproducirse dentro de la aplicación (canciones y listas de reproducción).

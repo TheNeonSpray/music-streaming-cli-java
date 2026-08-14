@@ -1,8 +1,12 @@
-package entidades;
+package cr.ac.ucenfotec.bl.entidades.Administrador;
+
+import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entidades.Usuario.Usuario;
+import cr.ac.ucenfotec.bl.entidades.UsuarioFinal.UsuarioFinal;
 
 import java.util.ArrayList;
 
-public class Administrador extends Usuario{
+public class Administrador extends Usuario {
 
     //constructor
     public Administrador(String correoElectronico, String nombreUsuario, String contrasenia) {

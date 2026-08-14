@@ -1,4 +1,4 @@
-package excepciones;
+package cr.ac.ucenfotec.bl.excepciones;
 
 /* Excepción lanzada cuando un usuario final no posee saldo suficiente
    para completar la compra de una canción. */
