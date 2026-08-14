@@ -208,11 +208,16 @@ public class UsuarioFinal extends Usuario {
     }
 
     public boolean agregarListaReproduccion(ListaReproduccion lista) {
-        if (lista != null && !listasReproduccion.contains(lista)) {
+            if(lista ==null){
+                return false;
+            }
+            for(ListaReproduccion l : listasReproduccion){
+                if(l.getNombre().equalsIgnoreCase(lista.getNombre())){
+                    return false;
+                }
+            }
             listasReproduccion.add(lista);
             return true;
-        }
-        return false;
     }
 
     public boolean eliminarListaReproduccion(ListaReproduccion lista) {
@@ -252,17 +257,16 @@ public class UsuarioFinal extends Usuario {
 
     @Override
     public String toString() {
-        return "UsuarioFinal{" +
-                "nombreCompleto='" + nombreCompleto + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                ", cedula='" + cedula + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", correoElectronico='" + getCorreoElectronico() + '\'' +
-                ", nombreUsuario='" + getNombreUsuario() + '\'' +
-                ", saldo=" + saldo +
-                ", coleccionCanciones=" + coleccionCanciones.size() +
-                ", listasReproduccion=" + listasReproduccion.size() +
-                '}';
+        return "Usuario Final: \n" +
+                "Nombre completo: " + nombreCompleto + "\n" +
+                "Fecha de nacimiento: " + fechaNacimiento + "\n" +
+                "Nacionalidad: " + nacionalidad + "\n" +
+                "Cédula: " + cedula + "\n" +
+                "Avatar:" + avatar + "\n" +
+                "Correo electrónico: " + getCorreoElectronico() + "\n" +
+                "Nombre de usuario: " + getNombreUsuario() + "\n" +
+                "Saldo disponible: $" + saldo + "\n" +
+                "Canciones compradas: " + coleccionCanciones.size() + "\n" +
+                "Listas creadas: " + listasReproduccion.size();
     }
 }
