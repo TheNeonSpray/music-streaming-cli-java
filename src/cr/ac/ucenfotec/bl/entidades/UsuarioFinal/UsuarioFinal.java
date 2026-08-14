@@ -1,6 +1,10 @@
-package entidades;
+package cr.ac.ucenfotec.bl.entidades.UsuarioFinal;
 
-import excepciones.SaldoInsuficienteException;
+import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entidades.ColaReproduccion.ColaReproduccion;
+import cr.ac.ucenfotec.bl.entidades.ListaReproduccion.ListaReproduccion;
+import cr.ac.ucenfotec.bl.entidades.Usuario.Usuario;
+import cr.ac.ucenfotec.bl.excepciones.SaldoInsuficienteException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

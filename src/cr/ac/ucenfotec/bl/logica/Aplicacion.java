@@ -1,11 +1,11 @@
-package logica;
+package cr.ac.ucenfotec.bl.logica;
 
-import entidades.Administrador;
-import entidades.Cancion;
-import entidades.ListaReproduccion;
-import entidades.Usuario;
-import entidades.UsuarioFinal;
-import excepciones.CredencialesInvalidasException;
+import cr.ac.ucenfotec.bl.entidades.Administrador.Administrador;
+import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entidades.ListaReproduccion.ListaReproduccion;
+import cr.ac.ucenfotec.bl.entidades.Usuario.Usuario;
+import cr.ac.ucenfotec.bl.entidades.UsuarioFinal.UsuarioFinal;
+import cr.ac.ucenfotec.bl.excepciones.CredencialesInvalidasException;
 
 import java.util.ArrayList;
 

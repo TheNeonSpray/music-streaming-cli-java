@@ -1,6 +1,7 @@
-package entidades;
+package cr.ac.ucenfotec.bl.entidades.Usuario;
 
-import excepciones.CredencialesInvalidasException;
+import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.excepciones.CredencialesInvalidasException;
 
 /* Clase abstracta que centraliza los datos y comportamientos comunes de los
    usuarios del sistema (administrador y usuarios finales). */

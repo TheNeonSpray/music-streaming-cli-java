@@ -1,8 +1,10 @@
-package entidades;
+package cr.ac.ucenfotec.bl.entidades.ListaReproduccion;
+
+import cr.ac.ucenfotec.bl.entidades.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entidades.Reproducible.Reproducible;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ListaReproduccion implements Reproducible {
     private String nombre;

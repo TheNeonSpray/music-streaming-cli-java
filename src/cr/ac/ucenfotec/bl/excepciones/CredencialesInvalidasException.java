@@ -1,4 +1,4 @@
-package excepciones;
+package cr.ac.ucenfotec.bl.excepciones;
 
 public class CredencialesInvalidasException extends Exception {
 
