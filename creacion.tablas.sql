@@ -1,8 +1,8 @@
 -- Creación de la base de datos
-CREATE DATABASE db_music_app;
+CREATE DATABASE bd_music_app;
 
 -- Activación de la base de datos
-USE db_music_app;
+USE bd_music_app;
 
 CREATE TABLE t_usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
