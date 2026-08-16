@@ -1,5 +1,8 @@
 -- Creación de la base de datos
 CREATE DATABASE bd_music_app;
+CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
 
 -- Activación de la base de datos
 USE bd_music_app;
@@ -39,6 +42,17 @@ CREATE TABLE t_canciones (
     cantidad_inclusiones_en_listas INT DEFAULT 0,
     cantidad_calificaciones INT DEFAULT 0,
     suma_calificaciones DOUBLE DEFAULT 0.0
+CONSTRAINT uk_cancion_nombre_artista UNIQUE (nombre, artista),
+    CONSTRAINT chk_cancion_calificacion CHECK (calificacion BETWEEN 0.0 AND 5.0),
+    CONSTRAINT chk_cancion_precio CHECK (precio >= 0.0),
+    CONSTRAINT chk_cancion_compras CHECK (cantidad_compras >= 0),
+    CONSTRAINT chk_cancion_inclusiones CHECK (cantidad_inclusiones_en_listas >= 0),
+    CONSTRAINT chk_cancion_cantidad_calificaciones CHECK (cantidad_calificaciones >= 0),
+    CONSTRAINT chk_cancion_suma_calificaciones CHECK (
+        suma_calificaciones >= 0.0
+            AND suma_calificaciones <= cantidad_calificaciones * 5.0
+            AND (cantidad_calificaciones > 0 OR suma_calificaciones = 0.0)
+        )
 );
 
 CREATE TABLE t_listas_reproduccion (
