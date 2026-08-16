@@ -3,10 +3,12 @@ package cr.ac.ucenfotec.bl.entities.Cancion;
 import cr.ac.ucenfotec.bl.entities.Reproducible.Reproducible;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Cancion implements Reproducible {
     private static final String CARATULA_PREDETERMINADA = "img/Record-icon.png";
 
+    private int id;
     private String nombre;
     private String genero;
     private String artista;
@@ -41,7 +43,33 @@ public class Cancion implements Reproducible {
         inicializarCalificacion(calificacion);
     }
 
+
+    /* Constructor utilizado por el DAO*/
+    public Cancion(int id, String nombre, String genero, String artista, String compositor,
+                   LocalDate fechaLanzamiento, String album, String rutaCaratula,
+                   double precio, int cantidadCompras, int cantidadInclusionesEnListas,
+                   int cantidadCalificaciones, double sumaCalificaciones) {
+        this(nombre, genero, artista, compositor, fechaLanzamiento, album,
+                rutaCaratula, 0.0, precio);
+        setId(id);
+        setCantidadCompras(cantidadCompras);
+        setCantidadInclusionesEnListas(cantidadInclusionesEnListas);
+        restaurarCalificaciones(cantidadCalificaciones, sumaCalificaciones);
+    }
+
     /* Getters & Setters */
+
+    public int getId() {
+        return id;
+    }
+
+    // El identificador 0 representa una canción que todavía no ha sido persistida.
+    void setId(int id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("El identificador de la canción no puede ser negativo.");
+        }
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -240,7 +268,8 @@ public class Cancion implements Reproducible {
     }
 
     private void inicializarCalificacion(double calificacionInicial) {
-        if (calificacionInicial < 0.0 || calificacionInicial > 5.0) {
+        if (!Double.isFinite(calificacionInicial)
+                || calificacionInicial < 0.0 || calificacionInicial > 5.0) {
             throw new IllegalArgumentException("La calificación debe estar entre 0.0 y 5.0.");
         }
 
@@ -263,9 +292,39 @@ public class Cancion implements Reproducible {
         }
     }
 
+    private void restaurarCalificaciones(int cantidad, double suma) {
+        if (cantidad < 0 || !Double.isFinite(suma) || suma < 0.0
+                || suma > cantidad * 5.0 || (cantidad == 0 && suma != 0.0)) {
+            throw new IllegalArgumentException("El historial de calificaciones almacenado no es válido.");
+        }
+        this.cantidadCalificaciones = cantidad;
+        this.sumaCalificaciones = suma;
+        actualizarCalificacionPromedio();
+    }
+
+    @Override
+    public boolean equals(Object objeto) {
+        if (this == objeto) return true;
+        if (!(objeto instanceof Cancion)) return false;
+        Cancion otra = (Cancion) objeto;
+        if (id > 0 && otra.id > 0) {
+            return id == otra.id;
+        }
+        return nombre.equalsIgnoreCase(otra.nombre)
+                && artista.equalsIgnoreCase(otra.artista);
+    }
+
+    @Override
+    public int hashCode() {
+        if (id > 0) return Integer.hashCode(id);
+        return Objects.hash(nombre.toLowerCase(), artista.toLowerCase());
+    }
+
+
     @Override
     public String toString() {
         return "Cancion: \n" +
+                "ID: " + id + "\n" +
                 "Nombre: " + nombre + "\n" +
                 "Género: " + genero + "\n" +
                 "Artista: " + artista + "\n" +
