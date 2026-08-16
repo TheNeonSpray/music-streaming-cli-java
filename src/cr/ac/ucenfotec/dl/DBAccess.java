@@ -52,4 +52,44 @@ public class DBAccess {
         preparedStatement.executeUpdate();
     }
 
+    // Ejecuta INSERT, UPDATE o DELETE utilizando parámetros. De esta forma los DAO
+    // no tienen que concatenar los valores recibidos directamente en el SQL.
+    public int ejecutarActualizacion(String sql, Object... parametros) throws SQLException {
+        preparedStatement = connection.prepareStatement(sql);
+        asignarParametros(preparedStatement, parametros);
+        return preparedStatement.executeUpdate();
+    }
+
+    // Ejecuta un INSERT y devuelve la llave primaria generada por MySQL.
+    public int ejecutarInsercion(String sql, Object... parametros) throws SQLException {
+        preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        asignarParametros(preparedStatement, parametros);
+        preparedStatement.executeUpdate();
+
+        try (ResultSet llaves = preparedStatement.getGeneratedKeys()) {
+            if (llaves.next()) {
+                return llaves.getInt(1);
+            }
+        }
+        throw new SQLException("MySQL no devolvió el identificador del registro insertado.");
+    }
+
+    // Ejecuta un SELECT utilizando parámetros.
+    public ResultSet ejecutarConsulta(String sql, Object... parametros) throws SQLException {
+        preparedStatement = connection.prepareStatement(sql);
+        asignarParametros(preparedStatement, parametros);
+        return preparedStatement.executeQuery();
+    }
+
+    private void asignarParametros(PreparedStatement sentencia, Object... parametros) throws SQLException {
+        for (int i = 0; i < parametros.length; i++) {
+            Object valor = parametros[i];
+            if (valor instanceof java.time.LocalDate) {
+                sentencia.setDate(i + 1, Date.valueOf((java.time.LocalDate) valor));
+            } else {
+                sentencia.setObject(i + 1, valor);
+            }
+        }
+    }
+
 }
