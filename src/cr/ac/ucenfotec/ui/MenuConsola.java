@@ -158,7 +158,7 @@ public class MenuConsola {
                     throw new OpcionInvalidaException(
                             "La opción indicada no se encuentra entre las ofrecidas.\n");
                 }
-                // Controller.procesarMenuListas(opcion);
+                Controller.procesarMenuListas(opcion);
             } catch (NumberFormatException e) {
                 System.out.println("El formato del dato ingresado no es válido.\n");
             } catch (OpcionInvalidaException e) {

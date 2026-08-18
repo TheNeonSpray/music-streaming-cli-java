@@ -1,74 +1,44 @@
-package cr.ac.ucenfotec.bl.entities.ColaReproduccion;/* Clase de Kristhel (borrar este comment una vez completado el codigo) */
+package cr.ac.ucenfotec.bl.entities.ColaReproduccion;
 
-import cr.ac.ucenfotec.bl.entities.Reproducible.Reproducible;
-
-import java.util.ArrayList;
+import cr.ac.ucenfotec.bl.entities.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entities.ListaReproduccion.ListaReproduccion;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class ColaReproduccion {
-    //Atributos
-    private ArrayList<Reproducible> elementos; // Cola dinámica única de elementos reproducibles (canciones y listas de reproducción).
-    private int posicionActual;
-
-    //Contructores
+    private Queue<Cancion> elementos;
 
     public ColaReproduccion() {
-        this.elementos = new ArrayList<>();
-        this.posicionActual = 0;
+        this.elementos = new LinkedList<>();
     }
 
-    public ColaReproduccion(ArrayList<Reproducible> elementos) {
-        setElementos(elementos);
-        this.posicionActual = 0;
-    }
-//Getter
-
-    public ArrayList<Reproducible> getElementos() {
-        return elementos;
-    }
-
-    public int getPosicionActual() {
-        return posicionActual;
-    }
-
-
-    //Setter
-
-    public void setElementos(ArrayList<Reproducible> elementos) {
-        if (elementos == null) {
-            throw new IllegalArgumentException("Los elementos de la cola no pueden ser nulos.");
+    public void agregar(Cancion cancion) {
+        if (cancion != null) {
+            elementos.offer(cancion);
         }
-        this.elementos = elementos;
     }
 
-    public void setPosicionActual(int posicionActual) {
-        if (posicionActual < 0) {
-            throw new IllegalArgumentException("La posición actual no puede ser negativa.");
+    public void agregarElemento(Cancion cancion) {
+        agregar(cancion);
+    }
+
+    public void agregarElemento(ListaReproduccion lista) {
+        if (lista != null && lista.getCanciones() != null) {
+            for (Cancion c : lista.getCanciones()) {
+                elementos.offer(c);
+            }
         }
-        this.posicionActual = posicionActual;
     }
 
-    //Metodo
-
-    public void agregarElemento(Reproducible elemento) { // Se agrega cualquier elemento reproducible (canción o lista) al final de la cola.
-        if (elemento == null) {
-            throw new IllegalArgumentException("El elemento a encolar no puede ser nulo.");
-        }
-        elementos.add(elemento);
-    }
-
-    public boolean estaVacia() { // Se indica si la cola no contiene ningún elemento.
+    public boolean estaVacia() {
         return elementos.isEmpty();
     }
 
-    public Reproducible siguienteElemento() { // Se obtiene el siguiente elemento de la cola de forma circular: al llegar
-        if (elementos.isEmpty()) {
-            return null;
-        }
-        return elementos.remove(0);
+    public Cancion reproducirSiguiente() {
+        return elementos.poll();
     }
 
-    public String toString() { //Tenemos el metodo toString, nos devuelve String, texto
-        return "ColaReproduccion" +  //Este retorna el texto
-                "elementos: " + elementos;  // Da la lista de elementos
+    public Queue<Cancion> getElementos() {
+        return elementos;
     }
 }

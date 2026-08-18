@@ -116,7 +116,7 @@ public class UsuarioFinal extends Usuario {
     }
 
     // Se mantiene privado para que el saldo solo cambie mediante recargas y compras.
-    private void setSaldo(double saldo) {
+    public void setSaldo(double saldo) {
         if (saldo < 0) {
             throw new IllegalArgumentException("El saldo no puede ser negativo.");
         }
@@ -160,7 +160,7 @@ public class UsuarioFinal extends Usuario {
             throw new IllegalArgumentException("La cola de reproducción no puede ser nula.");
         }
 
-        this.colaReproduccion = colaReproduccion;
+        this.colaReproduccion = new ColaReproduccion();
     }
 
     /* Metodos */

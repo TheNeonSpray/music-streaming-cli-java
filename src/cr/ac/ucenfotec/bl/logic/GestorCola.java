@@ -1,41 +1,46 @@
 package cr.ac.ucenfotec.bl.logic;
 
 import cr.ac.ucenfotec.bl.entities.Cancion.Cancion;
+import cr.ac.ucenfotec.bl.entities.UsuarioFinal.UsuarioFinal;
+import cr.ac.ucenfotec.tl.Controller;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class GestorCola {
-    private static Queue<Cancion> colaReproduccion = new LinkedList<>();
 
-    public static Queue<Cancion> obtenerCola() {
-        return colaReproduccion;
-    }
+    private GestorCola() {}
 
     public static void encolarCancion(Cancion cancion) throws Exception {
         if (cancion == null) {
-            throw new Exception("La canción seleccionada no es válida.");
+            throw new IllegalArgumentException("La canción seleccionada no es válida.");
         }
-        colaReproduccion.add(cancion);
+        UsuarioFinal usuario = obtenerUsuarioFinalActivo();
+        usuario.getColaReproduccion().agregar(cancion); // O el método que uses para añadir
     }
 
     public static void encolarLista(List<Cancion> canciones) throws Exception {
         if (canciones == null || canciones.isEmpty()) {
-            throw new Exception("La lista seleccionada no contiene canciones para encolar.");
+            throw new IllegalArgumentException("La lista seleccionada no contiene canciones.");
         }
-        colaReproduccion.addAll(canciones);
+        UsuarioFinal usuario = obtenerUsuarioFinalActivo();
+        for (Cancion cancion : canciones) {
+            usuario.getColaReproduccion().agregar(cancion);
+        }
     }
 
     public static Cancion reproducirSiguiente() throws Exception {
-        if (colaReproduccion.isEmpty()) {
-            throw new Exception("La cola de reproducción está vacía. No hay elementos para reproducir.");
+        UsuarioFinal usuario = obtenerUsuarioFinalActivo();
+        if (usuario.getColaReproduccion().estaVacia()) {
+            throw new Exception("La cola de reproducción está vacía.");
         }
-        return colaReproduccion.poll();
+        return usuario.getColaReproduccion().reproducirSiguiente();
     }
 
-    public static boolean estaVacia() {
-        return colaReproduccion.isEmpty();
+    private static UsuarioFinal obtenerUsuarioFinalActivo() throws Exception {
+        Object conectado = Controller.getUsuarioConectado();
+        if (conectado instanceof UsuarioFinal usuarioFinal) {
+            return usuarioFinal;
+        }
+        throw new Exception("Debe iniciar sesión como usuario final para gestionar la cola.");
     }
 }
-

@@ -111,4 +111,56 @@ public class DAOCancion {
                 resultado.getDouble("suma_calificaciones")
         );
     }
+
+    public static void registrarCompraCancion(cr.ac.ucenfotec.bl.entities.UsuarioFinal.UsuarioFinal usuario, Cancion cancion) throws Exception {
+        String sql = "INSERT INTO t_coleccion_usuario (id_usuario_final, id_cancion) " +
+                "VALUES ((SELECT uf.id FROM t_usuarios_finales uf INNER JOIN t_usuarios u ON uf.id_usuario = u.id WHERE u.nombre_usuario = ?), ?)";
+        cr.ac.ucenfotec.dl.Connector.getConnection().ejecutarActualizacion(sql, usuario.getNombreUsuario(), cancion.getId());
+
+        String sqlUpdate = "UPDATE t_canciones SET cantidad_compras = cantidad_compras + 1 WHERE id = ?";
+        cr.ac.ucenfotec.dl.Connector.getConnection().ejecutarActualizacion(sqlUpdate, cancion.getId());
+    }
+
+    public static ArrayList<Cancion> obtenerColeccionUsuario(cr.ac.ucenfotec.bl.entities.UsuarioFinal.UsuarioFinal usuario) throws Exception {
+        ArrayList<Cancion> coleccion = new ArrayList<>();
+        String sql = "SELECT c.id, c.nombre, c.genero, c.artista, c.compositor, c.fecha_lanzamiento, " +
+                "c.album, c.ruta_caratula, c.calificacion, c.precio, c.cantidad_compras, c.cantidad_inclusiones_en_listas, c.cantidad_calificaciones, c.suma_calificaciones " +
+                "FROM t_canciones c " +
+                "INNER JOIN t_coleccion_usuario cu ON c.id = cu.id_cancion " +
+                "INNER JOIN t_usuarios_finales uf ON cu.id_usuario_final = uf.id " +
+                "INNER JOIN t_usuarios u ON uf.id_usuario = u.id " +
+                "WHERE u.nombre_usuario = ?";
+
+        try (java.sql.ResultSet rs = cr.ac.ucenfotec.dl.Connector.getConnection().ejecutarConsulta(sql, usuario.getNombreUsuario())) {
+            while (rs.next()) {
+                Cancion c = new Cancion(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("genero"),
+                        rs.getString("artista"),
+                        rs.getString("compositor"),
+                        rs.getDate("fecha_lanzamiento").toLocalDate(),
+                        rs.getString("album"),
+                        rs.getString("ruta_caratula"),
+                        rs.getDouble("calificacion"),
+                        rs.getInt("cantidad_compras"),
+                        rs.getInt("cantidad_inclusiones_en_listas"),
+                        rs.getInt("cantidad_calificaciones"),
+                        rs.getDouble("suma_calificaciones")
+                );
+                // Asignamos el precio utilizando su setter
+                c.setPrecio(rs.getDouble("precio"));
+                coleccion.add(c);
+            }
+        }
+        return coleccion;
+    }
+
+    public static void calificarCancion(Cancion cancion, double nuevaCalificacion) throws Exception {
+        String sql = "UPDATE t_canciones SET cantidad_calificaciones = cantidad_calificaciones + 1, " +
+                "suma_calificaciones = suma_calificaciones + ?, " +
+                "calificacion = (suma_calificaciones + ?) / (cantidad_calificaciones + 1) " +
+                "WHERE id = ?";
+        cr.ac.ucenfotec.dl.Connector.getConnection().ejecutarActualizacion(sql, nuevaCalificacion, nuevaCalificacion, cancion.getId());
+    }
 }
